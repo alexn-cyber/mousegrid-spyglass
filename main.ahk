@@ -14,11 +14,27 @@ GuiControlGet, MyText, Pos, MyText
 textWidth := MyTextW
 textHeight := MyTextH
 
+; Define screen dimensions
+SysGet, screenWidth, 78 ; Get screen width
+SysGet, screenHeight, 79 ; Get screen height
+
+; Calculate dimensions of each top-level grid
+segmentWidth := screenWidth / 3
+segmentHeight := screenHeight / 3
+
 return
 
 FollowMouse:
     MouseGetPos, mouseX, mouseY  ; Get the current mouse position
-    ; Adjust the GUI position to center it around the mouse cursor
+    ; Determine which top-level grid the mouse is in
+    topGridX := Floor(mouseX / segmentWidth) + 1
+    topGridY := Floor(mouseY / segmentHeight) + 1
+    gridNumber := (topGridY - 1) * 3 + topGridX
+
+    ; Update the text to show the current grid number
+    GuiControl, , MyText, %gridNumber%
+
+    ; Adjust the GUI position to follow the mouse cursor
     xPos := mouseX + 20
     yPos := mouseY + 20
     Gui, Show, x%xPos% y%yPos% NoActivate AutoSize
