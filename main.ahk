@@ -31,8 +31,16 @@ FollowMouse:
     topGridY := Floor(mouseY / segmentHeight) + 1
     gridNumber := (topGridY - 1) * 3 + topGridX
 
+    sub1relativeMouseX := Mod(mouseX, segmentWidth)
+    sub1relativeMouseY := Mod(mouseY, segmentHeight)
+    sub1W := segmentWidth / 3
+    sub1H := segmentHeight / 3
+    sub1X := Floor(sub1relativeMouseX / sub1W) + 1
+    sub1Y := Floor(sub1relativeMouseY / sub1H) + 1
+    sub1N := (sub1Y - 1) * 3 + sub1X
+
     ; Update the text to show the current grid number
-    GuiControl, , MyText, %gridNumber%
+    GuiControl, , MyText, %gridNumber% %sub1N%
 
     ; Adjust the GUI position to follow the mouse cursor
     xPos := mouseX + 20
