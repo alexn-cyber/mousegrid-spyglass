@@ -48,4 +48,21 @@ FollowMouse:
     Gui, Show, x%xPos% y%yPos% NoActivate AutoSize
 return
 
-Esc::ExitApp  ; Press Escape to exit the script
+; Create a system tray icon with an exit option
+Menu, Tray, Icon, shell32.dll, 1  ; Set an icon for the tray
+Menu, Tray, Add, Exit, ExitScript  ; Add an 'Exit' option to the system tray menu
+Menu, Tray, Click, 1  ; Set a single left-click action on the tray icon
+Menu, Tray, Default, ToggleVisibility  ; Set the default action to toggle visibility
+return
+
+ToggleVisibility:
+    Gui, Submit, NoHide
+    if (GuiVisible := !GuiVisible) {
+        Gui, Show, NoActivate
+    } else {
+        Gui, Hide
+    }
+return
+
+ExitScript:
+    ExitApp
