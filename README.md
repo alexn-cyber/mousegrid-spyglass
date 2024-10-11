@@ -6,6 +6,5 @@ A broken draft perpetual WIP toy utility for me to see the mousegrid coordinates
 
 1. Install chocolatey
 1. Run an admin powershell window
-1. `choco install -y make windows-sdk-10-version-2104-all visualstudio2022buildtools visualstudio2022-workload-vctools`
-1. `& "C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvarsall.bat" x64`
-1. `make`
+1. `choco install autohotkey`
+1. Run this script with autohotkey
