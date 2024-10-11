@@ -1,4 +1,5 @@
 #Persistent
+#SingleInstance Force
 CoordMode, Mouse, Screen ; mouse is relative to entire screen
 SetTimer, FollowMouse, 10  ; Update the position every 10ms
 Gui, +AlwaysOnTop +ToolWindow -Caption ; Create a GUI window that is always on top and has no border
@@ -13,10 +14,14 @@ WinSet, TransColor, EEAA99
 GuiControlGet, MyText, Pos, MyText
 textWidth := MyTextW
 textHeight := MyTextH
+SysGet, screenWidth, 78
+SysGet, screenHeight, 79
+GuiVisible := true
 
-; Define screen dimensions
-SysGet, screenWidth, 78 ; Get screen width
-SysGet, screenHeight, 79 ; Get screen height
+Menu, Tray, Icon, shell32.dll, 1  ; Set an icon for the tray
+Menu, Tray, Add
+Menu, Tray, Add, Toggle Mousegrid Spyglass Visibility, ToggleVisibility
+
 
 getSegmentNumber(mouseX, mouseY, segmentWidth, segmentHeight) {
     relativeMouseX := Mod(mouseX, segmentWidth)
@@ -45,23 +50,17 @@ FollowMouse:
     ; Adjust the GUI position to follow the mouse cursor
     xPos := mouseX + 20
     yPos := mouseY + 20
-    Gui, Show, x%xPos% y%yPos% NoActivate AutoSize
-return
+    if (GuiVisible == true) {
+        Gui, Show, x%xPos% y%yPos% NoActivate AutoSize
+    }
+    else {
+        Gui, Hide
+    }
 
-; Create a system tray icon with an exit option
-Menu, Tray, Icon, shell32.dll, 1  ; Set an icon for the tray
-Menu, Tray, Add, Exit, ExitScript  ; Add an 'Exit' option to the system tray menu
-Menu, Tray, Click, 1  ; Set a single left-click action on the tray icon
-Menu, Tray, Default, ToggleVisibility  ; Set the default action to toggle visibility
 return
 
 ToggleVisibility:
-    Gui, Submit, NoHide
-    if (GuiVisible := !GuiVisible) {
-        Gui, Show, NoActivate
-    } else {
-        Gui, Hide
-    }
+    GuiVisible := !GuiVisible
 return
 
 ExitScript:
