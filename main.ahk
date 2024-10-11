@@ -18,29 +18,29 @@ textHeight := MyTextH
 SysGet, screenWidth, 78 ; Get screen width
 SysGet, screenHeight, 79 ; Get screen height
 
-; Calculate dimensions of each top-level grid
-segmentWidth := screenWidth / 3
-segmentHeight := screenHeight / 3
+getSegmentNumber(mouseX, mouseY, segmentWidth, segmentHeight) {
+    relativeMouseX := Mod(mouseX, segmentWidth)
+    relativeMouseY := Mod(mouseY, segmentHeight)
+    subWidth := segmentWidth / 3
+    subHeight := segmentHeight / 3
+    subX := Floor(relativeMouseX / subWidth) + 1
+    subY := Floor(relativeMouseY / subHeight) + 1
+    return (subY - 1) * 3 + subX
+}
 
 return
 
 FollowMouse:
     MouseGetPos, mouseX, mouseY  ; Get the current mouse position
-    ; Determine which top-level grid the mouse is in
-    topGridX := Floor(mouseX / segmentWidth) + 1
-    topGridY := Floor(mouseY / segmentHeight) + 1
-    gridNumber := (topGridY - 1) * 3 + topGridX
+    grid1N := getSegmentNumber(mouseX, mouseY, screenWidth, screenHeight)
+    grid2N := getSegmentNumber(mouseX, mouseY, screenWidth / 3 , screenHeight / 3)
+    grid3N := getSegmentNumber(mouseX, mouseY, screenWidth / 3 / 3 , screenHeight / 3 / 3)
+    grid4N := getSegmentNumber(mouseX, mouseY, screenWidth / 3 / 3 / 3 , screenHeight / 3 / 3 / 3)
+    grid5N := getSegmentNumber(mouseX, mouseY, screenWidth / 3 / 3 / 3 / 3, screenHeight / 3 / 3 / 3 / 3)
 
-    sub1relativeMouseX := Mod(mouseX, segmentWidth)
-    sub1relativeMouseY := Mod(mouseY, segmentHeight)
-    sub1W := segmentWidth / 3
-    sub1H := segmentHeight / 3
-    sub1X := Floor(sub1relativeMouseX / sub1W) + 1
-    sub1Y := Floor(sub1relativeMouseY / sub1H) + 1
-    sub1N := (sub1Y - 1) * 3 + sub1X
 
     ; Update the text to show the current grid number
-    GuiControl, , MyText, %gridNumber% %sub1N%
+    GuiControl, , MyText, %grid1N% %grid2N% %grid3N% %grid4N% %grid5N%
 
     ; Adjust the GUI position to follow the mouse cursor
     xPos := mouseX + 20
