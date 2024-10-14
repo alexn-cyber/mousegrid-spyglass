@@ -1,7 +1,7 @@
 #Persistent
 #SingleInstance Force
 CoordMode, Mouse, Screen ; mouse is relative to entire screen
-SetTimer, FollowMouse, 10  ; Update the position every 10ms
+SetTimer, FollowMouse, 50  ; Update the position every 10ms
 Gui, +AlwaysOnTop +ToolWindow -Caption ; Create a GUI window that is always on top and has no border
 Gui, Font, s12, Arial  ; Set the font size and type
 Gui, Add, Text, vMyText cRed, Follow Me!  ; Add a text control to the GUI
